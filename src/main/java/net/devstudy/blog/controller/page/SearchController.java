@@ -1,6 +1,7 @@
 package net.devstudy.blog.controller.page;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,6 +14,7 @@ import net.devstudy.blog.Constants;
 import net.devstudy.blog.controller.AbstractController;
 import net.devstudy.blog.entity.Article;
 import net.devstudy.blog.model.Items;
+import net.devstudy.blog.model.Pagination;
 
 /**
  * 
@@ -28,10 +30,14 @@ public class SearchController extends AbstractController {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String query = req.getParameter("query");
 		if (StringUtils.isNotBlank(query)) {
-			Items<Article> items = getBusinessService().listArticlesBySearchQuery(query, 0, Constants.LIMIT_ARTICLES_PER_PAGE);
+			int offset = getOffset(req, Constants.LIMIT_ARTICLES_PER_PAGE);
+			Items<Article> items = getBusinessService().listArticlesBySearchQuery(query, offset, Constants.LIMIT_ARTICLES_PER_PAGE);
 			req.setAttribute("list", items.getItems());
 			req.setAttribute("count", items.getCount());
 			req.setAttribute("searchQuery", query);
+			Pagination pagination = new Pagination.Builder("/search?query=" + URLEncoder.encode(query, "utf8") + "&", 
+					offset, items.getCount()).withLimit(Constants.LIMIT_ARTICLES_PER_PAGE).build();
+			req.setAttribute("pagination", pagination);
 			forwardToPage("search.jsp", req, resp);
 		} else {
 			resp.sendRedirect("/news");
