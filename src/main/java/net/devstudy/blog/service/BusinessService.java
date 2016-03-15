@@ -1,4 +1,9 @@
 package net.devstudy.blog.service;
+
+import java.util.Map;
+
+import net.devstudy.blog.entity.Category;
+
 /**
  * 
  * @author devstudy
@@ -7,4 +12,5 @@ package net.devstudy.blog.service;
  */
 public interface BusinessService {
 
+	Map<Integer, Category> mapCategories();
 }

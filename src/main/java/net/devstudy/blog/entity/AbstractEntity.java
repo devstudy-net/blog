@@ -10,7 +10,7 @@ import net.devstudy.blog.model.AbstractModel;
  * @see http://devstudy.net
  * @version 1.0
  */
-public class AbstractEntity<PK> extends AbstractModel implements Serializable {
+public abstract class AbstractEntity<PK> extends AbstractModel implements Serializable {
 	private static final long serialVersionUID = -886224493172895177L;
 	private PK id;
 	public PK getId() {
