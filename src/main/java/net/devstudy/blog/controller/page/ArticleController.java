@@ -25,8 +25,8 @@ public class ArticleController extends AbstractController {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String requestUrl = req.getRequestURI();
 		try {
-			String requestUrl = req.getRequestURI();
 			String id = StringUtils.split(requestUrl, "/")[1];
 			Article article = getBusinessService().viewArticle(Long.parseLong(id), requestUrl);
 			if (article == null) {
@@ -39,7 +39,7 @@ public class ArticleController extends AbstractController {
 		}  catch (RedirectToValidUrlException e) {
 			resp.sendRedirect(e.getUrl());
 		}  catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
-			resp.sendRedirect("/news");
+			resp.sendRedirect("/404?url="+requestUrl);
 		}
 	}
 }
