@@ -2,17 +2,20 @@ package net.devstudy.blog.service.impl;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
 import javax.sql.DataSource;
 
 import net.devstudy.blog.dao.SQLDAO;
+import net.devstudy.blog.entity.Account;
 import net.devstudy.blog.entity.Article;
 import net.devstudy.blog.entity.Category;
 import net.devstudy.blog.entity.Comment;
 import net.devstudy.blog.exception.ApplicationException;
 import net.devstudy.blog.exception.RedirectToValidUrlException;
+import net.devstudy.blog.form.CommentForm;
 import net.devstudy.blog.model.Items;
 import net.devstudy.blog.service.BusinessService;
 
@@ -113,5 +116,17 @@ class BusinessServiceImpl implements BusinessService {
 		} catch (SQLException e) {
 			throw new ApplicationException("Can't execute db command: " + e.getMessage(), e);
 		}
+	}
+	
+	@Override
+	public Comment createComment(CommentForm form)  {
+		Comment c = new Comment();
+		c.setId(0L);
+		c.setContent("Test content");
+		c.setCreated(new Timestamp(System.currentTimeMillis()));
+		Account a = new Account();
+		a.setName("test_account");
+		c.setAccount(a);
+		return c;
 	}
 }
