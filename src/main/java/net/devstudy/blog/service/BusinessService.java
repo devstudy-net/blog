@@ -4,6 +4,7 @@ import java.util.Map;
 
 import net.devstudy.blog.entity.Article;
 import net.devstudy.blog.entity.Category;
+import net.devstudy.blog.exception.RedirectToValidUrlException;
 import net.devstudy.blog.model.Items;
 
 /**
@@ -23,4 +24,6 @@ public interface BusinessService {
 	Category findCategoryByUrl(String categoryUrl);
 	
 	Items<Article> listArticlesBySearchQuery(String searchQuery, int offset, int limit);
+	
+	Article viewArticle(Long idArticle, String requestUrl) throws RedirectToValidUrlException;
 }
