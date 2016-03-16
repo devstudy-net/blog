@@ -6,6 +6,8 @@ package net.devstudy.blog;
  * @version 1.0
  */
 public class Constants {
+	
+	public static final int LIMIT_COMMENTS_PER_PAGE = 10;
 
 	public static final int LIMIT_ARTICLES_PER_PAGE = 10;
 	
