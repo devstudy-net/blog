@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import net.devstudy.blog.service.AvatarService;
 import net.devstudy.blog.service.BusinessService;
 import net.devstudy.blog.service.I18nService;
+import net.devstudy.blog.service.NotificationService;
 import net.devstudy.blog.service.SocialService;
 import net.devstudy.blog.util.AppUtil;
 
@@ -45,7 +46,13 @@ public class ServiceManager {
 	}
 	
 	public String getApplicationProperty(String property) {
-		return applicationProperties.getProperty(property);
+		String value = applicationProperties.getProperty(property);
+		if (value.startsWith("${sysEnv.")) {
+			value = value.replace("${sysEnv.", "").replace("}", "");
+			return System.getProperty(value, value);
+		} else {
+			return value;
+		}
 	}
 	
 	private static final String SERVICE_MANAGER = "SERVICE_MANAGER";
@@ -57,6 +64,7 @@ public class ServiceManager {
 	final SocialService socialService;
 	final AvatarService avatarService;
 	final I18nService i18nService;
+	final NotificationService notificationService;
 	final BusinessService businessService;
 	private ServiceManager(ServletContext context) {
 		applicationContext = context;
@@ -65,6 +73,7 @@ public class ServiceManager {
 		socialService = new GooglePlusSocialService(this);
 		avatarService = new FileStorageAvatarService(this);
 		i18nService = new I18nServiceImpl();
+		notificationService = new AsyncEmailNotificationService(this);
 		businessService = new BusinessServiceImpl(this);
 		LOGGER.info("ServiceManager instance created");
 	}

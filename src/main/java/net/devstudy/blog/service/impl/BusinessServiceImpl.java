@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.sql.DataSource;
@@ -25,6 +26,7 @@ import net.devstudy.blog.model.SocialAccount;
 import net.devstudy.blog.service.AvatarService;
 import net.devstudy.blog.service.BusinessService;
 import net.devstudy.blog.service.I18nService;
+import net.devstudy.blog.service.NotificationService;
 import net.devstudy.blog.service.SocialService;
 
 /**
@@ -40,6 +42,8 @@ class BusinessServiceImpl implements BusinessService {
 	private final SocialService socialService;
 	private final AvatarService avatarService;
 	private final I18nService i18nService;
+	private final NotificationService notificationService;
+	private final String appHost;
 	
 	BusinessServiceImpl(ServiceManager serviceManager) {
 		super();
@@ -47,6 +51,8 @@ class BusinessServiceImpl implements BusinessService {
 		this.socialService = serviceManager.socialService;
 		this.avatarService = serviceManager.avatarService;
 		this.i18nService = serviceManager.i18nService;
+		this.notificationService = serviceManager.notificationService;
+		this.appHost = serviceManager.getApplicationProperty("app.host");
 		this.sql = new SQLDAO();
 	}
 
@@ -133,6 +139,13 @@ class BusinessServiceImpl implements BusinessService {
 		}
 	}
 	
+	private void sendNewCommentNotification(Article article, String commentContent, Locale locale) {
+		String fullLink = appHost + article.getArticleLink();
+		String title = i18nService.getMessage("notification.newComment.title", locale, article.getTitle());
+		String content = i18nService.getMessage("notification.newComment.content", locale, article.getTitle(), fullLink, commentContent);
+		notificationService.sendNotification(title, content);
+	}
+	
 	public Comment createComment(CommentForm form) throws ValidateException {
 		form.validate(i18nService);
 		String newAvatarPath = null;
@@ -150,7 +163,7 @@ class BusinessServiceImpl implements BusinessService {
 			sql.updateArticleComments(c, article);
 			c.commit();
 			// after commit
-			//TODO Send new comment notification
+			sendNewCommentNotification(article, form.getContent(), form.getLocale());
 			return comment;
 		} catch (SQLException | RuntimeException | IOException e) {
 			if(avatarService.deleteAvatarIfExists(newAvatarPath)){
