@@ -28,7 +28,6 @@ import java.util.UUID;
  * 
  * @author devstudy
  * @see http://devstudy.net
- * @version 1.0
  */
 public class TestDBDataGenerator {
 	// Test sentences for content generation

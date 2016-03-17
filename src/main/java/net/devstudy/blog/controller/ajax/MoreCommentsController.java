@@ -16,7 +16,6 @@ import net.devstudy.blog.entity.Comment;
  * 
  * @author devstudy
  * @see http://devstudy.net
- * @version 1.0
  */
 @WebServlet("/ajax/comments")
 public class MoreCommentsController extends AbstractController {
@@ -30,7 +29,7 @@ public class MoreCommentsController extends AbstractController {
 			return 0;
 		}
 	}
-	
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		int offset = getOffset(req);

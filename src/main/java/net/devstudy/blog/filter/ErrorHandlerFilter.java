@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
  * 
  * @author devstudy
  * @see http://devstudy.net
- * @version 1.0
  */
 @WebFilter(filterName = "ErrorHandlerFilter", urlPatterns = "/*")
 public class ErrorHandlerFilter extends AbstractFilter {

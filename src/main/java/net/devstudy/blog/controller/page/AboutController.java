@@ -13,7 +13,6 @@ import net.devstudy.blog.controller.AbstractController;
  * 
  * @author devstudy
  * @see http://devstudy.net
- * @version 1.0
  */
 @WebServlet("/about")
 public class AboutController extends AbstractController {

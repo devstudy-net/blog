@@ -9,7 +9,6 @@ import org.apache.commons.dbutils.handlers.AbstractListHandler;
  * 
  * @author devstudy
  * @see http://devstudy.net
- * @version 1.0
  */
 public final class ListMapper<T> extends AbstractListHandler<T> {
 	private final AbstractMapper<T> handler;

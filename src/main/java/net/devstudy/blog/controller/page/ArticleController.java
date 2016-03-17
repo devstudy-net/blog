@@ -20,7 +20,6 @@ import net.devstudy.blog.exception.RedirectToValidUrlException;
  * 
  * @author devstudy
  * @see http://devstudy.net
- * @version 1.0
  */
 @WebServlet("/article/*")
 public class ArticleController extends AbstractController {
@@ -33,18 +32,17 @@ public class ArticleController extends AbstractController {
 			String id = StringUtils.split(requestUrl, "/")[1];
 			Article article = getBusinessService().viewArticle(Long.parseLong(id), requestUrl);
 			if (article == null) {
-				resp.sendRedirect("/404?url="+requestUrl);
-			}
-			else{
+				resp.sendRedirect("/404?url=" + requestUrl);
+			} else {
 				req.setAttribute("article", article);
 				List<Comment> comments = getBusinessService().listComments(article.getId(), 0, Constants.LIMIT_COMMENTS_PER_PAGE);
 				req.setAttribute("comments", comments);
 				forwardToPage("article.jsp", req, resp);
 			}
-		}  catch (RedirectToValidUrlException e) {
+		} catch (RedirectToValidUrlException e) {
 			resp.sendRedirect(e.getUrl());
-		}  catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
-			resp.sendRedirect("/404?url="+requestUrl);
+		} catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
+			resp.sendRedirect("/404?url=" + requestUrl);
 		}
 	}
 }

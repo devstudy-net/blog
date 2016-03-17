@@ -13,9 +13,8 @@ import net.devstudy.blog.controller.AbstractController;
  * 
  * @author devstudy
  * @see http://devstudy.net
- * @version 1.0
  */
-@WebServlet({"/error", "/404"})
+@WebServlet({ "/error", "/404" })
 public class ErrorController extends AbstractController {
 	private static final long serialVersionUID = 5370467887808025258L;
 

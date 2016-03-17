@@ -20,15 +20,16 @@ import net.devstudy.blog.service.impl.ServiceManager;
  * 
  * @author devstudy
  * @see http://devstudy.net
- * @version 1.0
  */
 public abstract class AbstractController extends HttpServlet {
 	private static final long serialVersionUID = 53415732680855255L;
 	protected final Logger LOGGER = LoggerFactory.getLogger(getClass());
 	private BusinessService businessService;
+
 	public final BusinessService getBusinessService() {
 		return businessService;
 	}
+
 	public final int getOffset(HttpServletRequest req, int limit) {
 		String val = req.getParameter("page");
 		if (val != null) {
@@ -38,19 +39,21 @@ public abstract class AbstractController extends HttpServlet {
 			return 0;
 		}
 	}
+
 	@Override
-	public void init() throws ServletException {
+	public final void init() throws ServletException {
 		businessService = ServiceManager.getInstance(getServletContext()).getBusinessService();
 	}
-	public final void forwardToPage (String jspPage, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		req.setAttribute("currentPage", "page/"+jspPage);
+
+	public final void forwardToPage(String jspPage, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		req.setAttribute("currentPage", "page/" + jspPage);
 		req.getRequestDispatcher("/WEB-INF/JSP/page-template.jsp").forward(req, resp);
 	}
-	
-	public final void forwardToFragment (String jspPage, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		req.getRequestDispatcher("/WEB-INF/JSP/fragment/"+jspPage).forward(req, resp);
+
+	public final void forwardToFragment(String jspPage, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		req.getRequestDispatcher("/WEB-INF/JSP/fragment/" + jspPage).forward(req, resp);
 	}
-	
+
 	public final <T extends AbstractForm> T createForm(HttpServletRequest req, Class<T> formClass) throws ServletException {
 		try {
 			T form = formClass.newInstance();

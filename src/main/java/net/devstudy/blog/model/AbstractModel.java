@@ -7,7 +7,6 @@ import org.apache.commons.lang.builder.ToStringStyle;
  * 
  * @author devstudy
  * @see http://devstudy.net
- * @version 1.0
  */
 public abstract class AbstractModel {
 

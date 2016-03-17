@@ -18,10 +18,10 @@ import org.slf4j.LoggerFactory;
  * 
  * @author devstudy
  * @see http://devstudy.net
- * @version 1.0
  */
 public abstract class AbstractFilter implements Filter {
 	protected final Logger LOGGER = LoggerFactory.getLogger(getClass());
+
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 	}
@@ -34,7 +34,7 @@ public abstract class AbstractFilter implements Filter {
 	}
 
 	public abstract void doFilter(HttpServletRequest req, HttpServletResponse resp, FilterChain chain) throws IOException, ServletException;
-	
+
 	@Override
 	public void destroy() {
 	}

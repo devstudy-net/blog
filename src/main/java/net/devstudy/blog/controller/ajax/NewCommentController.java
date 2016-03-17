@@ -18,7 +18,6 @@ import net.devstudy.blog.form.CommentForm;
  * 
  * @author devstudy
  * @see http://devstudy.net
- * @version 1.0
  */
 @WebServlet("/ajax/comment")
 public class NewCommentController extends AbstractController {
@@ -32,7 +31,7 @@ public class NewCommentController extends AbstractController {
 			req.setAttribute("comments", Collections.singleton(comment));
 			forwardToFragment("comments.jsp", req, resp);
 		} catch (ValidateException e) {
-			throw new ApplicationException("Invalid create comment try: "+e.getMessage(), e);			
+			throw new ApplicationException("Invalid create comment try: " + e.getMessage(), e);
 		}
 	}
 }

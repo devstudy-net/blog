@@ -34,7 +34,6 @@ import net.devstudy.blog.service.SocialService;
  * 
  * @author devstudy
  * @see http://devstudy.net
- * @version 1.0
  */
 class BusinessServiceImpl implements BusinessService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(BusinessServiceImpl.class);
@@ -45,7 +44,7 @@ class BusinessServiceImpl implements BusinessService {
 	private final I18nService i18nService;
 	private final NotificationService notificationService;
 	private final String appHost;
-	
+
 	BusinessServiceImpl(ServiceManager serviceManager) {
 		super();
 		this.dataSource = serviceManager.dataSource;
@@ -65,7 +64,7 @@ class BusinessServiceImpl implements BusinessService {
 			throw new ApplicationException("Can't execute db command: " + e.getMessage(), e);
 		}
 	}
-	
+
 	@Override
 	public Items<Article> listArticles(int offset, int limit) {
 		try (Connection c = dataSource.getConnection()) {
@@ -77,7 +76,7 @@ class BusinessServiceImpl implements BusinessService {
 			throw new ApplicationException("Can't execute db command: " + e.getMessage(), e);
 		}
 	}
-	
+
 	@Override
 	public Items<Article> listArticlesByCategory(String categoryUrl, int offset, int limit) {
 		try (Connection c = dataSource.getConnection()) {
@@ -89,7 +88,7 @@ class BusinessServiceImpl implements BusinessService {
 			throw new ApplicationException("Can't execute db command: " + e.getMessage(), e);
 		}
 	}
-	
+
 	@Override
 	public Category findCategoryByUrl(String categoryUrl) {
 		try (Connection c = dataSource.getConnection()) {
@@ -98,7 +97,7 @@ class BusinessServiceImpl implements BusinessService {
 			throw new ApplicationException("Can't execute db command: " + e.getMessage(), e);
 		}
 	}
-	
+
 	@Override
 	public Items<Article> listArticlesBySearchQuery(String searchQuery, int offset, int limit) {
 		try (Connection c = dataSource.getConnection()) {
@@ -110,7 +109,7 @@ class BusinessServiceImpl implements BusinessService {
 			throw new ApplicationException("Can't execute db command: " + e.getMessage(), e);
 		}
 	}
-	
+
 	@Override
 	public Article viewArticle(Long idArticle, String requestUrl) throws RedirectToValidUrlException {
 		try (Connection c = dataSource.getConnection()) {
@@ -130,7 +129,7 @@ class BusinessServiceImpl implements BusinessService {
 			throw new ApplicationException("Can't execute db command: " + e.getMessage(), e);
 		}
 	}
-	
+
 	@Override
 	public List<Comment> listComments(long idArticle, int offset, int limit) {
 		try (Connection c = dataSource.getConnection()) {
@@ -139,14 +138,14 @@ class BusinessServiceImpl implements BusinessService {
 			throw new ApplicationException("Can't execute db command: " + e.getMessage(), e);
 		}
 	}
-	
+
 	private void sendNewCommentNotification(Article article, String commentContent, Locale locale) {
 		String fullLink = appHost + article.getArticleLink();
 		String title = i18nService.getMessage("notification.newComment.title", locale, article.getTitle());
 		String content = i18nService.getMessage("notification.newComment.content", locale, article.getTitle(), fullLink, commentContent);
 		notificationService.sendNotification(title, content);
 	}
-	
+
 	public Comment createComment(CommentForm form) throws ValidateException {
 		form.validate(i18nService);
 		String newAvatarPath = null;
@@ -163,17 +162,16 @@ class BusinessServiceImpl implements BusinessService {
 			article.setComments(sql.countComments(c, article.getId()));
 			sql.updateArticleComments(c, article);
 			c.commit();
-			// after commit
 			sendNewCommentNotification(article, form.getContent(), form.getLocale());
 			return comment;
 		} catch (SQLException | RuntimeException | IOException e) {
-			if(avatarService.deleteAvatarIfExists(newAvatarPath)){
-				LOGGER.info("Avatar "+newAvatarPath+" deleted");
+			if (avatarService.deleteAvatarIfExists(newAvatarPath)) {
+				LOGGER.info("Avatar " + newAvatarPath + " deleted");
 			}
 			throw new ApplicationException("Can't create new comment: " + e.getMessage(), e);
 		}
 	}
-	
+
 	@Override
 	public void createContactRequest(ContactForm form) throws ValidateException {
 		form.validate(i18nService);

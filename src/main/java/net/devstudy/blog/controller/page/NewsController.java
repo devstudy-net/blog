@@ -18,9 +18,8 @@ import net.devstudy.blog.model.Pagination;
  * 
  * @author devstudy
  * @see http://devstudy.net
- * @version 1.0
  */
-@WebServlet({"/news", "/news/*"})
+@WebServlet({ "/news", "/news/*" })
 public class NewsController extends AbstractController {
 	private static final long serialVersionUID = 216595477139640552L;
 
@@ -29,22 +28,21 @@ public class NewsController extends AbstractController {
 		int offset = getOffset(req, Constants.LIMIT_ARTICLES_PER_PAGE);
 		String requestUrl = req.getRequestURI();
 		Items<Article> items = null;
-		if(requestUrl.endsWith("/news") || requestUrl.endsWith("/news/")){
+		if (requestUrl.endsWith("/news") || requestUrl.endsWith("/news/")) {
 			items = getBusinessService().listArticles(offset, Constants.LIMIT_ARTICLES_PER_PAGE);
 			req.setAttribute("isNewsPage", Boolean.TRUE);
-		}
-		else{
+		} else {
 			String categoryUrl = requestUrl.replace("/news", "");
 			Category category = getBusinessService().findCategoryByUrl(categoryUrl);
 			if (category == null) {
-				resp.sendRedirect("/404?url="+requestUrl);
+				resp.sendRedirect("/404?url=" + requestUrl);
 				return;
 			}
 			items = getBusinessService().listArticlesByCategory(categoryUrl, offset, Constants.LIMIT_ARTICLES_PER_PAGE);
 			req.setAttribute("selectedCategory", category);
 		}
 		req.setAttribute("list", items.getItems());
-		Pagination pagination = new Pagination.Builder(requestUrl+"?", offset, items.getCount()).withLimit(Constants.LIMIT_ARTICLES_PER_PAGE).build();
+		Pagination pagination = new Pagination.Builder(requestUrl + "?", offset, items.getCount()).withLimit(Constants.LIMIT_ARTICLES_PER_PAGE).build();
 		req.setAttribute("pagination", pagination);
 		forwardToPage("news.jsp", req, resp);
 	}

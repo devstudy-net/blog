@@ -8,7 +8,6 @@ import java.util.Properties;
  * 
  * @author devstudy
  * @see http://devstudy.net
- * @version 1.0
  */
 public class AppUtil {
 	public static void loadProperties(Properties props, String classPathUrl) {

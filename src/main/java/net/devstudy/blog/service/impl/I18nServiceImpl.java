@@ -9,7 +9,6 @@ import net.devstudy.blog.service.I18nService;
  * 
  * @author devstudy
  * @see http://devstudy.net
- * @version 1.0
  */
 class I18nServiceImpl implements I18nService {
 

@@ -1,8 +1,12 @@
+<%-- 
+  - Author: devstudy
+  - See: http://devstudy.net
+--%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <div class="callout primary" style="margin: 0;">
 	<div class="row">
 		<div class="large-6 medium-6 columns">
-			<h1>Blog name</h1>
+			<h1>Blog Demo</h1>
 		</div>
 		<div class="large-6 medium-6 columns">
 			<form action="/search" method="get">

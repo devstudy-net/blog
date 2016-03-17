@@ -15,7 +15,6 @@ import net.devstudy.blog.entity.Category;
  * 
  * @author devstudy
  * @see http://devstudy.net
- * @version 1.0
  */
 public class MapCategoryMapper implements ResultSetHandler<Map<Integer, Category>> {
 	private RowProcessor convert = new BasicRowProcessor();

@@ -16,21 +16,20 @@ import net.devstudy.blog.service.NotificationService;
  * 
  * @author devstudy
  * @see http://devstudy.net
- * @version 1.0
  */
 public class AsyncEmailNotificationService implements NotificationService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(AsyncEmailNotificationService.class);
 	private final ServiceManager serviceManager;
 	private final ExecutorService executorService;
 	private final int tryCount;
-	
+
 	AsyncEmailNotificationService(ServiceManager serviceManager) {
 		super();
 		this.serviceManager = serviceManager;
 		this.executorService = Executors.newCachedThreadPool();
 		this.tryCount = Integer.parseInt(serviceManager.getApplicationProperty("email.sendTryCount"));
 	}
-	
+
 	@Override
 	public void sendNotification(String title, String content) {
 		executorService.submit(new EmailItem(title, content, tryCount));
@@ -43,10 +42,8 @@ public class AsyncEmailNotificationService implements NotificationService {
 
 	/**
 	 * 
-	 * 
 	 * @author devstudy
 	 * @see http://devstudy.net
-	 * @version 1.0
 	 */
 	private class EmailItem extends AbstractModel implements Runnable {
 		private final String subject;

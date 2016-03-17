@@ -18,16 +18,15 @@ import net.devstudy.blog.service.AvatarService;
  * 
  * @author devstudy
  * @see http://devstudy.net
- * @version 1.0
  */
 class FileStorageAvatarService implements AvatarService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(FileStorageAvatarService.class);
 	private final String mediaDirParent;
-	
-	FileStorageAvatarService (ServiceManager serviceManager) {
+
+	FileStorageAvatarService(ServiceManager serviceManager) {
 		this.mediaDirParent = normalizeMediaDirPath(serviceManager.applicationContext.getRealPath("/"));
 	}
-	
+
 	private void downloadImageFromUrl(String url, String fileName) throws IOException {
 		File file = new File(fileName);
 		if (!file.getParentFile().exists()) {
@@ -45,17 +44,16 @@ class FileStorageAvatarService implements AvatarService {
 		}
 		return path;
 	}
-	
+
 	@Override
 	public String downloadAvatar(String url) throws IOException {
-		if(url != null) {
+		if (url != null) {
 			String uid = UUID.randomUUID().toString() + ".jpg";
 			String fullImgPath = mediaDirParent + MEDIA_AVATAR_PREFFIX + uid;
 			downloadImageFromUrl(url, fullImgPath);
 			Thumbnails.of(new File(fullImgPath)).size(AVATAR_SIZE_IN_PX, AVATAR_SIZE_IN_PX).toFile(new File(fullImgPath));
 			return MEDIA_AVATAR_PREFFIX + uid;
-		}
-		else{
+		} else {
 			return null;
 		}
 	}
@@ -67,13 +65,11 @@ class FileStorageAvatarService implements AvatarService {
 			if (avatar.exists()) {
 				if (avatar.delete()) {
 					return true;
-				}
-				else{
+				} else {
 					LOGGER.error("Can't delete file: " + avatar.getAbsolutePath());
 				}
 			}
 		}
 		return false;
 	}
-
 }

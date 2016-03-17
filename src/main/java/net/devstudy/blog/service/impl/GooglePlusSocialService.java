@@ -20,17 +20,16 @@ import net.devstudy.blog.service.SocialService;
  * 
  * @author devstudy
  * @see http://devstudy.net
- * @version 1.0
  */
 class GooglePlusSocialService implements SocialService {
 	private final String googlePlusClientId;
 	private final List<String> issuers;
-	
+
 	GooglePlusSocialService(ServiceManager serviceManager) {
 		this.googlePlusClientId = serviceManager.getApplicationProperty("social.googleplus.clientId");
-		this.issuers = Arrays.asList(new String[]{"https://accounts.google.com", "accounts.google.com"});
+		this.issuers = Arrays.asList(new String[] { "https://accounts.google.com", "accounts.google.com" });
 	}
-	
+
 	@Override
 	public SocialAccount getSocialAccount(String authToken) {
 		try {
@@ -40,9 +39,9 @@ class GooglePlusSocialService implements SocialService {
 			GoogleIdToken idToken = verifier.verify(authToken);
 			if (idToken != null) {
 				Payload payload = idToken.getPayload();
-				return new SocialAccount(payload.getEmail(), (String)payload.get("given_name"), (String)payload.get("picture"));
+				return new SocialAccount(payload.getEmail(), (String) payload.get("given_name"), (String) payload.get("picture"));
 			} else {
-				throw new ApplicationException("Can't get account by authToken: "+authToken);
+				throw new ApplicationException("Can't get account by authToken: " + authToken);
 			}
 		} catch (GeneralSecurityException | IOException e) {
 			throw new ApplicationException(e);

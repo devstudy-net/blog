@@ -9,7 +9,6 @@ import net.devstudy.blog.entity.Article;
  * 
  * @author devstudy
  * @see http://devstudy.net
- * @version 1.0
  */
 public class ArticleMapper extends AbstractMapper<Article> {
 
@@ -19,5 +18,4 @@ public class ArticleMapper extends AbstractMapper<Article> {
 		a.setIdCategory(rs.getInt("id_category"));
 		return a;
 	}
-
 }

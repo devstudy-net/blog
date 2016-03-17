@@ -20,7 +20,6 @@ import net.devstudy.blog.model.Pagination;
  * 
  * @author devstudy
  * @see http://devstudy.net
- * @version 1.0
  */
 @WebServlet("/search")
 public class SearchController extends AbstractController {

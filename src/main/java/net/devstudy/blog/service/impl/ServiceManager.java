@@ -20,9 +20,8 @@ import net.devstudy.blog.util.AppUtil;
  * 
  * @author devstudy
  * @see http://devstudy.net
- * @version 1.0
  */
-public class ServiceManager {
+public final class ServiceManager {
 	public static ServiceManager getInstance(ServletContext context) {
 		ServiceManager instance = (ServiceManager) context.getAttribute(SERVICE_MANAGER);
 		if (instance == null) {
@@ -31,22 +30,15 @@ public class ServiceManager {
 		}
 		return instance;
 	}
-	public void destroy() {
-		try {
-			dataSource.close();
-		} catch (SQLException e) {
-			LOGGER.error("Close dataSource failed: "+e.getMessage(), e);
-		}
-		notificationService.shutdown();
-		LOGGER.info("ServiceManager instance destroyed");
-		
-	}
+
 	public BusinessService getBusinessService() {
 		return businessService;
 	}
+
 	public I18nService getI18nService() {
 		return i18nService;
 	}
+
 	public String getApplicationProperty(String property) {
 		String value = applicationProperties.getProperty(property);
 		if (value.startsWith("${sysEnv.")) {
@@ -57,9 +49,20 @@ public class ServiceManager {
 		}
 	}
 	
+	public void destroy() {
+		try {
+			dataSource.close();
+		} catch (SQLException e) {
+			LOGGER.error("Close dataSource failed: " + e.getMessage(), e);
+		}
+		notificationService.shutdown();
+		LOGGER.info("ServiceManager instance destroyed");
+
+	}
+
 	private static final String SERVICE_MANAGER = "SERVICE_MANAGER";
 	private static final Logger LOGGER = LoggerFactory.getLogger(ServiceManager.class);
-	
+
 	final Properties applicationProperties = new Properties();
 	final ServletContext applicationContext;
 	final BasicDataSource dataSource;
@@ -68,6 +71,7 @@ public class ServiceManager {
 	final I18nService i18nService;
 	final NotificationService notificationService;
 	final BusinessService businessService;
+
 	private ServiceManager(ServletContext context) {
 		applicationContext = context;
 		AppUtil.loadProperties(applicationProperties, "application.properties");
@@ -79,8 +83,8 @@ public class ServiceManager {
 		businessService = new BusinessServiceImpl(this);
 		LOGGER.info("ServiceManager instance created");
 	}
-	
-	private BasicDataSource createBasicDataSource(){
+
+	private BasicDataSource createBasicDataSource() {
 		BasicDataSource ds = new BasicDataSource();
 		ds.setDefaultAutoCommit(false);
 		ds.setRollbackOnReturn(true);

@@ -1,3 +1,7 @@
+<%-- 
+  - Author: devstudy
+  - See: http://devstudy.net
+--%>
 <%@ tag import="net.devstudy.blog.service.I18nService"%>
 <%@ tag import="net.devstudy.blog.service.impl.ServiceManager"%>
 <%@ tag pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>

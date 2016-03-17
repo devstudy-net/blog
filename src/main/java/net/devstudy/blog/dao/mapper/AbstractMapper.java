@@ -11,7 +11,6 @@ import org.apache.commons.dbutils.RowProcessor;
  * 
  * @author devstudy
  * @see http://devstudy.net
- * @version 1.0
  */
 public abstract class AbstractMapper<T> implements ResultSetHandler<T> {
 	protected final RowProcessor convert = new BasicRowProcessor();

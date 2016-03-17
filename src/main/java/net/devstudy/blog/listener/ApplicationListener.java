@@ -17,11 +17,11 @@ import net.devstudy.blog.service.impl.ServiceManager;
  * 
  * @author devstudy
  * @see http://devstudy.net
- * @version 1.0
  */
 @WebListener
-public class ApplicationListener implements ServletContextListener {
+public final class ApplicationListener implements ServletContextListener {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationListener.class);
+
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
 		ServiceManager serviceManager = ServiceManager.getInstance(sce.getServletContext());

@@ -1,3 +1,7 @@
+<%-- 
+  - Author: devstudy
+  - See: http://devstudy.net
+--%>
 <%@ page language="java" pageEncoding='UTF-8' contentType='application/javascript; charset=UTF-8' trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="tags" 	  	tagdir="/WEB-INF/tags"%>
 

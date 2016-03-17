@@ -1,17 +1,21 @@
+<%-- 
+  - Author: devstudy
+  - See: http://devstudy.net
+--%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<title>Blog template</title>
-<meta charset="utf-8">
-<meta http-equiv="x-ua-compatible" content="ie=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="google-signin-scope" content="profile email">
-<meta name="google-signin-client_id" content="${social_googleplus_clientId }">
-<link rel="stylesheet" type="text/css" href="/static/css/foundation.css">
-<link rel="stylesheet" type="text/css" href="/static/css/foundation-icons.css">
-<link rel="stylesheet" type="text/css" href="/static/css/app.css">
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<title>Blog demo for &lt;/&gt;DevStudy.net</title>
+	<meta charset="utf-8">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="google-signin-scope" content="profile email">
+	<meta name="google-signin-client_id" content="${social_googleplus_clientId }">
+	<link rel="stylesheet" type="text/css" href="/static/css/foundation.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/foundation-icons.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/app.css">
 </head>
 <body>
 	<header>
@@ -36,7 +40,7 @@
 		</div>
 	</section>
 	<footer class="footer">
-		<jsp:include page="fragment/footer.jsp"/>
+		<jsp:include page="fragment/footer.jsp" />
 	</footer>
 	<script src="/static/js/jquery.js"></script>
 	<script src="/static/js/what-input.js"></script>

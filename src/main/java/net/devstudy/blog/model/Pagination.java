@@ -8,7 +8,6 @@ import java.util.List;
  * 
  * @author devstudy
  * @see http://devstudy.net
- * @version 1.0
  */
 public final class Pagination extends AbstractModel {
 	private final String previousUrl;
@@ -44,12 +43,11 @@ public final class Pagination extends AbstractModel {
 	public String getNextUrl() {
 		return nextUrl;
 	}
-	
+
 	/**
 	 * 
 	 * @author devstudy
 	 * @see http://devstudy.net
-	 * @version 1.0
 	 */
 	public static final class PageItem extends AbstractModel {
 		private final String url;
@@ -93,13 +91,11 @@ public final class Pagination extends AbstractModel {
 			return new PageItem(url, caption);
 		}
 	}
-	
+
 	/**
-	 * 
 	 * 
 	 * @author devstudy
 	 * @see http://devstudy.net
-	 * @version 1.0
 	 */
 	public static class Builder extends AbstractModel {
 		private static final int DEFAULT_MAX_PAGINATION_BUTTONS_PER_PAGE = 9;

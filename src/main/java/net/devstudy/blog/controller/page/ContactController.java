@@ -16,17 +16,16 @@ import net.devstudy.blog.form.ContactForm;
  * 
  * @author devstudy
  * @see http://devstudy.net
- * @version 1.0
  */
 @WebServlet("/contact")
 public class ContactController extends AbstractController {
 	private static final long serialVersionUID = 7089871282763553056L;
-	private static final String CONTACT_REQUEST_SUCESS = "CONTACT_REQUEST_SUCESS"; 
-	
+	private static final String CONTACT_REQUEST_SUCESS = "CONTACT_REQUEST_SUCESS";
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		Boolean isSuccess = (Boolean) req.getSession().getAttribute(CONTACT_REQUEST_SUCESS);
-		if(isSuccess == null) {
+		if (isSuccess == null) {
 			isSuccess = Boolean.FALSE;
 		} else {
 			req.getSession().removeAttribute(CONTACT_REQUEST_SUCESS);
@@ -34,7 +33,7 @@ public class ContactController extends AbstractController {
 		req.setAttribute("success", isSuccess);
 		forwardToPage("contact.jsp", req, resp);
 	}
-	
+
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		try {
@@ -43,7 +42,7 @@ public class ContactController extends AbstractController {
 			req.getSession().setAttribute(CONTACT_REQUEST_SUCESS, Boolean.TRUE);
 			resp.sendRedirect("/contact");
 		} catch (ValidateException e) {
-			throw new ApplicationException("Validation should be done on client side: "+e.getMessage(), e);
+			throw new ApplicationException("Validation should be done on client side: " + e.getMessage(), e);
 		}
 	}
 }

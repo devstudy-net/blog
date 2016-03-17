@@ -1,9 +1,9 @@
 package net.devstudy.blog.exception;
+
 /**
  * 
  * @author devstudy
  * @see http://devstudy.net
- * @version 1.0
  */
 public class ApplicationException extends RuntimeException {
 	private static final long serialVersionUID = -3180716741910924439L;
