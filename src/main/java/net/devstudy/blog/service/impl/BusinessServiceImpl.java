@@ -18,11 +18,13 @@ import net.devstudy.blog.entity.Category;
 import net.devstudy.blog.entity.Comment;
 import net.devstudy.blog.exception.ApplicationException;
 import net.devstudy.blog.exception.RedirectToValidUrlException;
+import net.devstudy.blog.exception.ValidateException;
 import net.devstudy.blog.form.CommentForm;
 import net.devstudy.blog.model.Items;
 import net.devstudy.blog.model.SocialAccount;
 import net.devstudy.blog.service.AvatarService;
 import net.devstudy.blog.service.BusinessService;
+import net.devstudy.blog.service.I18nService;
 import net.devstudy.blog.service.SocialService;
 
 /**
@@ -37,12 +39,14 @@ class BusinessServiceImpl implements BusinessService {
 	private final SQLDAO sql;
 	private final SocialService socialService;
 	private final AvatarService avatarService;
+	private final I18nService i18nService;
 	
 	BusinessServiceImpl(ServiceManager serviceManager) {
 		super();
 		this.dataSource = serviceManager.dataSource;
 		this.socialService = serviceManager.socialService;
 		this.avatarService = serviceManager.avatarService;
+		this.i18nService = serviceManager.i18nService;
 		this.sql = new SQLDAO();
 	}
 
@@ -129,7 +133,8 @@ class BusinessServiceImpl implements BusinessService {
 		}
 	}
 	
-	public Comment createComment(CommentForm form) {
+	public Comment createComment(CommentForm form) throws ValidateException {
+		form.validate(i18nService);
 		String newAvatarPath = null;
 		try (Connection c = dataSource.getConnection()) {
 			SocialAccount socialAccount = socialService.getSocialAccount(form.getAuthToken());

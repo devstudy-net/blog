@@ -1,11 +1,17 @@
 package net.devstudy.blog.form;
+
+import org.apache.commons.lang.StringUtils;
+
+import net.devstudy.blog.exception.ValidateException;
+import net.devstudy.blog.service.I18nService;
+
 /**
  * 
  * @author devstudy
  * @see http://devstudy.net
  * @version 1.0
  */
-public class CommentForm{
+public class CommentForm extends AbstractForm{
 	private Long idArticle;
 	private String content;
 	private String authToken;
@@ -26,5 +32,17 @@ public class CommentForm{
 	}
 	public String getAuthToken() {
 		return authToken;
+	}
+	@Override
+	public void validate(I18nService i18nService) throws ValidateException {
+		if(idArticle == null) {
+			throw new ValidateException("idArticle is required");
+		}
+		if(StringUtils.isBlank(content)) {
+			throw new ValidateException("content is required");
+		}
+		if(StringUtils.isBlank(authToken)) {
+			throw new ValidateException("authToken is required");
+		}
 	}
 }

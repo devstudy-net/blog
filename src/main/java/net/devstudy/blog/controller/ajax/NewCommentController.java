@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.devstudy.blog.controller.AbstractController;
 import net.devstudy.blog.entity.Comment;
+import net.devstudy.blog.exception.ApplicationException;
+import net.devstudy.blog.exception.ValidateException;
 import net.devstudy.blog.form.CommentForm;
 
 /**
@@ -24,9 +26,13 @@ public class NewCommentController extends AbstractController {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		CommentForm form = createForm(req, CommentForm.class);
-		Comment comment = getBusinessService().createComment(form);
-		req.setAttribute("comments", Collections.singleton(comment));
-		forwardToFragment("comments.jsp", req, resp);
+		try {
+			CommentForm form = createForm(req, CommentForm.class);
+			Comment comment = getBusinessService().createComment(form);
+			req.setAttribute("comments", Collections.singleton(comment));
+			forwardToFragment("comments.jsp", req, resp);
+		} catch (ValidateException e) {
+			throw new ApplicationException("Invalid create comment try: "+e.getMessage(), e);			
+		}
 	}
 }
