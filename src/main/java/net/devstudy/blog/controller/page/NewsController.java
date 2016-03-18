@@ -27,7 +27,20 @@ public class NewsController extends AbstractController {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		int offset = getOffset(req, Constants.LIMIT_ARTICLES_PER_PAGE);
 		String requestUrl = req.getRequestURI();
-		Items<Article> items = null;
+		Items<Article> items = listArticles(requestUrl, offset, req);
+		if(items == null) {
+			resp.sendRedirect("/404?url=" + requestUrl);
+		} else {
+			req.setAttribute("list", items.getItems());
+			Pagination pagination = new Pagination.Builder(requestUrl + "?", offset, items.getCount()).
+					withLimit(Constants.LIMIT_ARTICLES_PER_PAGE).build();
+			req.setAttribute("pagination", pagination);
+			forwardToPage("news.jsp", req, resp);
+		}
+	}
+	
+	private Items<Article> listArticles (String requestUrl, int offset, HttpServletRequest req) {
+		Items<Article> items;
 		if (requestUrl.endsWith("/news") || requestUrl.endsWith("/news/")) {
 			items = getBusinessService().listArticles(offset, Constants.LIMIT_ARTICLES_PER_PAGE);
 			req.setAttribute("isNewsPage", Boolean.TRUE);
@@ -35,15 +48,11 @@ public class NewsController extends AbstractController {
 			String categoryUrl = requestUrl.replace("/news", "");
 			Category category = getBusinessService().findCategoryByUrl(categoryUrl);
 			if (category == null) {
-				resp.sendRedirect("/404?url=" + requestUrl);
-				return;
+				return null;
 			}
 			items = getBusinessService().listArticlesByCategory(categoryUrl, offset, Constants.LIMIT_ARTICLES_PER_PAGE);
 			req.setAttribute("selectedCategory", category);
 		}
-		req.setAttribute("list", items.getItems());
-		Pagination pagination = new Pagination.Builder(requestUrl + "?", offset, items.getCount()).withLimit(Constants.LIMIT_ARTICLES_PER_PAGE).build();
-		req.setAttribute("pagination", pagination);
-		forwardToPage("news.jsp", req, resp);
+		return items;
 	}
 }

@@ -17,7 +17,7 @@ import net.devstudy.blog.service.NotificationService;
  * @author devstudy
  * @see http://devstudy.net
  */
-public class AsyncEmailNotificationService implements NotificationService {
+class AsyncEmailNotificationService implements NotificationService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(AsyncEmailNotificationService.class);
 	private final ServiceManager serviceManager;
 	private final ExecutorService executorService;
