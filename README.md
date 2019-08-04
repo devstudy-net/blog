@@ -57,7 +57,7 @@ cd blog/
 docker run -v ~/:/home/mvn/ -it --rm -e MAVEN_CONFIG=/home/mvn/.m2 -v "$PWD":/opt/src/ -w /opt/src devstudy/maven mvn -Duser.home=/home/mvn clean package
 ~~~~
 ###### 4. Создать файл .env в папке blog и указать переменные окружения:
-*(Если данный файл не создавать, то в проекте не будут работать модули **email** и **facebook**):*
+*(Если данный файл не создавать, то в проекте не будет работать модуль **email**):*
 ~~~~
 DEVSTUDY_BLOG_GOOGLE_PLUS_ID=TODO
 
