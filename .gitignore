@@ -1,0 +1,6 @@
+.idea
+blog.iml
+target
+.env
+
+src/main/webapp/media

@@ -1,0 +1,67 @@
+#
+# @author devstudy
+# @see http://devstudy.net
+# @see https://docs.docker.com/compose/compose-file/
+#
+# docker-compose build
+# docker-compose up
+# docker-compose down
+
+version: '3.7'
+
+services:
+  blog-postgres:
+    image: postgres:9.5-alpine
+    container_name: blog-postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=blog
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=blog
+    ports:
+      - 5432:5432
+    volumes:
+      - ./docker/postgres/:/docker-entrypoint-initdb.d/:ro
+    networks:
+      - blog-private-network
+
+  blog-web-server:
+    restart: always
+    build:
+      context: ./
+      dockerfile: docker/blog-web-server.dockerfile
+    image: devstudy/blog-web-server:1.0
+    container_name: blog-web-server
+    environment:
+      # Database settings:
+      - dbUrl=jdbc:postgresql://blog-postgres/blog
+      - dbUser=blog
+      - dbPassword=password
+      # App settings:
+      - appHost=http://localhost:8080
+      # Email settings:
+      - smtpServer=smtp.gmail.com
+      - smtpPort=465
+      - smtpUsername=${DEVSTUDY_BLOG_SMTP_USERNAME}
+      - smtpPassword=${DEVSTUDY_BLOG_SMTP_PASSWORD}
+      - fromEmail=devstudy.net@gmail.com
+      - notificationEmail=devstudy.net@gmail.com
+      # Google Plus
+      - googlePlusClientId=${DEVSTUDY_BLOG_GOOGLE_PLUS_ID:-1051029463557-h4cd4mlqrjkkoaef92t6aftdbacco9am.apps.googleusercontent.com}
+      # Remote debugging
+      - JPDA_ADDRESS=8000
+      - JPDA_TRANSPORT=dt_socket
+    ports:
+      - 80:8080
+      - 8765:8000
+    volumes:
+      - ./docker/media/:/opt/tomcat/webapps/ROOT/media
+    networks:
+      - blog-private-network
+    depends_on:
+      - blog-postgres
+    command: sh -c '/wait-for-service-up.sh blog-postgres:5432 -- catalina.sh jpda run'
+
+networks:
+  blog-private-network:
+    driver: bridge
