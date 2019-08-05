@@ -38,7 +38,7 @@ services:
       - dbUser=blog
       - dbPassword=password
       # App settings:
-      - appHost=http://localhost:8080
+      - appHost=http://localhost
       # Email settings:
       - smtpServer=smtp.gmail.com
       - smtpPort=465

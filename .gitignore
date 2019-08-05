@@ -1,6 +1,8 @@
 .idea
-blog.iml
+*.iml
 target
 .env
 
 src/main/webapp/media
+*.min.*
+*.jar
